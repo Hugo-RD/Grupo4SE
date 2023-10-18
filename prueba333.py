@@ -1,1 +1,1 @@
-print("kostofrees  ")
+print(" kostofrees  ")
