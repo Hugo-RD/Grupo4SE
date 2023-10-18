@@ -1,1 +1,1 @@
-"kostofrees"
+print("kostofrees  ")
