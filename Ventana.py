@@ -23,8 +23,7 @@ class Ventana_Principal(Ventana):
         self.frame_base = tkinter.Frame(self.ventana)
         self.frame_base.pack()
 
-        self.espacio(self.frame_base)
-        self.et_bienvenida = tkinter.Label(self.frame_base, text="Bienvenido a la interfaz, escoja un archivo")
+        self.et_bienvenida = tkinter.Label(self.frame_base, text="\nBienvenido a la interfaz, escoja un archivo\n")
         self.et_bienvenida.pack()
         self.boton_escoger = tkinter.Button(self.frame_base, text="Escoger archivo", 
                                 command=lambda: self.__escoger_archivo(),
@@ -60,10 +59,8 @@ class Ventana_Principal(Ventana):
         #crear 2 frame de la interfaz
         self.frame_var = tkinter.Frame(self.ventana)
         self.frame_var.pack()
-        self.espacio(self.frame_var)
-        titulo_var = tkinter.Label(self.frame_var, text="Escoja 2 variables")
+        titulo_var = tkinter.Label(self.frame_var, text="\nEscoja 2 variables\n")
         titulo_var.pack()
-        self.espacio(self.frame_var)
         #buscar variables numéricas
         var_list = diferenciar_variables(self.data) #buscamos las variables numéricas
         check_vars = []
@@ -74,13 +71,20 @@ class Ventana_Principal(Ventana):
             check_vars.append((var, var_control))  # Almacenar el nombre de la variable y su variable de control
         
         #creamos boton para generar la RR
-        self.espacio(self.frame_var)
+        
         self.boton_generar = tkinter.Button(self.frame_var, text="Generar Recta de Regresión",
                                             bg="light grey", command=lambda: self.generar_RR(check_vars))
         self.boton_generar.pack()
-        self.espacio(self.frame_var)
-        self.et_info = tkinter.Label(self.frame_var, text="")
-        self.et_info.pack()
+        #ETIQUETAS PARA ENSEÑAR LOS DATOS DE LA RECTA
+        self.et_cortes = tkinter.Label(self.frame_var, text="")
+        self.et_variables = tkinter.Label(self.frame_var, text="")       
+        self.et_recta = tkinter.Label(self.frame_var, text="")       
+        self.et_errores = tkinter.Label(self.frame_var, text="")
+        #colocar las etiquetas
+        self.et_variables.pack() #mostrar las variables usadas
+        self.et_recta.pack() #ecuacion recta y pendiente
+        self.et_cortes.pack() #mostrar corte con los ejes
+        self.et_errores.pack() #mostrar tipos de errores cometidos
         
     def generar_RR(self, vars):
         cnt = 0
@@ -96,8 +100,12 @@ class Ventana_Principal(Ventana):
             for var_name, status in vars:
                 if status.get() == 1:  # Utiliza status.get() para verificar si el checkbox está seleccionado
                     self.variables.append(var_name)
-            m, r_squared, mse, mae  = regresion_lineal(self.data, self.variables[0], self.variables[1])
-            self.et_info.config(text=f"Datos: \n\nVariable X: {self.variables[0]}\nVariable Y: {self.variables[1]} \nPendiente: {m}\nError R^2: {r_squared}\nError cuadrático medio: {mse}\nError absoluto medio: {mae}")
+            m, corte_x, corte_y, ec_recta, r_squared, mse, mae= regresion_lineal(self.data, self.variables[0], self.variables[1])
+            #actualizar valores por pantalla
+            self.et_variables.config(text=f"\nDatos: \nVariable X: {self.variables[0]}, Variable Y: {self.variables[1]}")
+            self.et_recta.config(text=f"Ecuación recta: {ec_recta}, Pendiente: {m}")
+            self.et_cortes.config(text=f"Corte eje X: {corte_x}, Corte eje Y: {corte_y}")
+            self.et_errores.config(text=f"Error R^2: {r_squared}, Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
     
     def _save_load(self):
         frame_abajo = tkinter.Frame(self.ventana)
@@ -111,14 +119,6 @@ class Ventana_Principal(Ventana):
         button_L.pack(side="right", padx=10)
     
             
-
-
-
-        
-
-    def espacio(self, frame):
-        espacio = tkinter.Label(frame, text="\n")
-        espacio.pack()
 
 
 
