@@ -35,13 +35,16 @@ class Ventana_Principal(Ventana):
     def __escoger_archivo(self):
         # Buscar archivo a cargar en la biblioteca
         ruta = tkinter.filedialog.askopenfilename(filetypes=[("Archivos CSV", "*.csv"),
-                                                             ("Archivos Excel", "*.xlsx"),
+                                                               ("Archivos Excel", "*.xlsx"),
+                                                             ("Archivos SQL", "*.db"),
                                                              ("Todos los archivos", "*.*")])
         if ruta:
             if ruta.lower().endswith(".csv"):
                 self.data = leer_csv(ruta)
             elif ruta.lower().endswith(".xlsx"):
                 self.data = leer_xlsx(ruta)
+            elif ruta.lower().endswith(".db"):
+                self.data = leer_sql(ruta)
             else:
                 Ventana_Error("El archivo introducido\n no es válido")
                 return
