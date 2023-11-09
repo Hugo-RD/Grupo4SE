@@ -1,7 +1,6 @@
 import tkinter
 from tkinter import filedialog
-from ventanas_auxiliares import Ventana_Error
-from ventana_madre import Ventana
+from ventanas_auxiliares import *
 from regresion_lineal import *
 from leer_archivos import *
 
