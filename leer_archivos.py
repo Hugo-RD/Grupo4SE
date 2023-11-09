@@ -15,6 +15,14 @@ def leer_sql(path):
     conn.close()
     return data
 
+def diferenciar_variables(data):
+    variables_num = []
+    for columna in data.columns:
+        if pd.api.types.is_numeric_dtype(data[columna]):
+            variables_num.append(columna)
+    
+    return variables_num
+
 #pruebas
 if __name__ == "__main__":
     data1=leer_csv("housing.csv")
