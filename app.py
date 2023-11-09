@@ -65,28 +65,50 @@ class Ventana_Principal(Ventana):
 
         var_list = diferenciar_variables(self.data)  # Buscar variables numéricas
         check_vars = []
+        radio_var = tkinter.StringVar()  # Variable de control para los radiobuttons
 
+        # Crear un marco para los checkboxes
+        check_frame = tkinter.Frame(self.frame_var)
+        check_frame.pack()
+
+        # Crear checkboxes para cada variable y mostrarlos en horizontal
         for var in var_list:
             var_control = tkinter.IntVar()  # Crear una variable de control para el checkbox
-            b = tkinter.Checkbutton(self.frame_var, text=var, variable=var_control)
-            b.pack()
+            checkbox = tkinter.Checkbutton(check_frame, text=var, variable=var_control)
+            checkbox.pack(side=tkinter.LEFT)  # Mostrar los checkboxes en horizontal
             check_vars.append((var, var_control))  # Almacenar el nombre de la variable y su variable de control
 
+        # Crear un marco para los radiobuttons
+        radio_frame = tkinter.Frame(self.frame_var)
+        radio_frame.pack()
+
+        # Crear radiobuttons para cada opción en la segunda fila y mostrarlos en horizontal
+        for var in var_list:
+            radio_button = tkinter.Radiobutton(radio_frame, text=var, variable=radio_var, value=var)
+            radio_button.pack(side=tkinter.LEFT)  # Mostrar los radiobuttons en horizontal
+
         self.boton_generar = tkinter.Button(self.frame_var, text="Generar Recta de Regresión",
-                                            bg="light grey", command=lambda: self.generar_RR(check_vars))
+                                            bg="light grey", command=lambda: self.generar_RR(check_vars, radio_var.get()))
         self.boton_generar.pack()
 
-        self.et_cortes = tkinter.Label(self.frame_var, text="")
+        result_labels = []  # Lista para almacenar etiquetas y resultados
+
         self.et_variables = tkinter.Label(self.frame_var, text="")
+        result_labels.append(self.et_variables)
+
         self.et_recta = tkinter.Label(self.frame_var, text="")
+        result_labels.append(self.et_recta)
+
+        self.et_cortes = tkinter.Label(self.frame_var, text="")
+        result_labels.append(self.et_cortes)
+
         self.et_errores = tkinter.Label(self.frame_var, text="")
+        result_labels.append(self.et_errores)
 
-        self.et_variables.pack()
-        self.et_recta.pack()
-        self.et_cortes.pack()
-        self.et_errores.pack()
+        for label in result_labels:
+            label.pack()
 
-    def generar_RR(self, vars):
+    def generar_RR(self, vars, indp):
         cnt = sum(status.get() for _, status in vars)
 
         if cnt != 2:
