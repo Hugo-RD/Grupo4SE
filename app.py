@@ -6,7 +6,7 @@ from leer_archivos import *
 
 class Ventana_Principal(Ventana):
     def __init__(self):
-        super().__init__(850, 850, "Modelos de regresión lineal")
+        super().__init__(1000, 850, "Modelos de regresión lineal")
         self.frame_var = None  # Variable para el frame de variables
         self.variables = []    # Lista para almacenar las variables seleccionadas
 
@@ -80,7 +80,7 @@ class Ventana_Principal(Ventana):
 
         # Crear un marco para los radiobuttons
         radio_frame = tkinter.Frame(self.frame_var)
-        radio_frame.pack()
+        radio_frame.pack(pady=10)
 
         # Crear radiobuttons para cada opción en la segunda fila y mostrarlos en horizontal
         for var in var_list:
@@ -88,8 +88,9 @@ class Ventana_Principal(Ventana):
             radio_button.pack(side=tkinter.LEFT)  # Mostrar los radiobuttons en horizontal
 
         self.boton_generar = tkinter.Button(self.frame_var, text="Generar Recta de Regresión",
-                                            bg="light grey", command=lambda: self.generar_RR(check_vars, radio_var.get()))
-        self.boton_generar.pack()
+                                            bg="light grey", width=25, height=2,
+                                            command=lambda: self.generar_RR(check_vars, radio_var.get()))
+        self.boton_generar.pack(pady=20)
 
         result_labels = []  # Lista para almacenar etiquetas y resultados
 
