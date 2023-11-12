@@ -128,18 +128,13 @@ class Ventana_Principal(Ventana):
 
     def _save_load(self):
         frame_abajo = tkinter.Frame(self.ventana)
-        frame_abajo.pack(side="bottom", pady=100)
+        frame_abajo.pack(side="bottom", pady=60)
 
         button_S = tkinter.Button(frame_abajo, text="Guardar modelo", bg="light grey",
                                 width=17, height=4)
         button_S.pack(side="left", padx=10)
 
         button_L = tkinter.Button(frame_abajo, text="Cargar modelo", bg="light grey",
-                                width=17, height=4)
-        button_L.pack(side="right", padx=10)
-
-if __name__ == "__main__":
-    Ventana_Principal()
                                 width=17, height=4)
         button_L.pack(side="right", padx=10)
 
