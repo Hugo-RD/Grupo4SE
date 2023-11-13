@@ -11,6 +11,8 @@ def regresion_lineal(data, var1, var2):
     model.fit(X, y)
     y_pred = model.predict(X)
 
+    """
+    #si quisisesemos enseñarlo en otra pestaña
     plt.scatter(X, y, label="Datos reales")
     plt.plot(X, y_pred, color='red', label="Predicciones")
 
@@ -19,7 +21,7 @@ def regresion_lineal(data, var1, var2):
     plt.ylabel(var2)
 
     plt.legend()
-    plt.show()
+    plt.show()"""
 
     r_squared = model.score(X, y)  # R^2
     mse = mean_squared_error(y, y_pred)  # Error cuadrático medio

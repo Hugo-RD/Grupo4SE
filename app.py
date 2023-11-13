@@ -142,14 +142,14 @@ class Ventana_Principal(Ventana):
             # Incorporar el gráfico en la interfaz
             canvas = FigureCanvasTkAgg(fig, master=self.frame_var)
             canvas_widget = canvas.get_tk_widget()
-            canvas_widget.pack()
+            canvas_widget.pack(pady = 20)
 
             # Cerrar la ventana de gráficos externa
             plt.close()
 
     def _save_load(self):
         frame_abajo = tkinter.Frame(self.ventana)
-        frame_abajo.pack(side="bottom", pady=60)
+        frame_abajo.pack(side="bottom", pady=40)
 
         button_S = tkinter.Button(frame_abajo, text="Guardar modelo", bg="light grey",
                                 width=17, height=4)
