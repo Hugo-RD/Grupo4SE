@@ -21,7 +21,8 @@ def regresion_lineal(data, var1, var2):
     plt.ylabel(var2)
 
     plt.legend()
-    plt.show()"""
+    plt.show()
+    """
 
     r_squared = model.score(X, y)  # R^2
     mse = mean_squared_error(y, y_pred)  # Error cuadrático medio

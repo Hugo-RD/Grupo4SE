@@ -129,6 +129,10 @@ class Ventana_Principal(Ventana):
             self.et_cortes.config(text=f"Corte eje X: {corte_x}, Corte eje Y: {corte_y}")
             self.et_errores.config(text=f"Error R^2: {r_squared}, Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
 
+            # Eliminar el gráfico anterior si existe
+            if hasattr(self, 'canvas_widget'):
+                self.canvas_widget.destroy()
+
             # Crear un gráfico y mostrarlo en la misma ventana
             fig, ax = plt.subplots(figsize=(6, 4), dpi=100)
             ax.scatter(self.data[self.variables[0]], self.data[indp], label="Datos reales")
@@ -141,12 +145,12 @@ class Ventana_Principal(Ventana):
 
             # Incorporar el gráfico en la interfaz
             canvas = FigureCanvasTkAgg(fig, master=self.frame_var)
-            canvas_widget = canvas.get_tk_widget()
-            canvas_widget.pack(pady = 20)
+            self.canvas_widget = canvas.get_tk_widget()
+            self.canvas_widget.pack()
 
             # Cerrar la ventana de gráficos externa
             plt.close()
-
+            
     def _save_load(self):
         frame_abajo = tkinter.Frame(self.ventana)
         frame_abajo.pack(side="bottom", pady=40)
