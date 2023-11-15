@@ -122,12 +122,12 @@ class Ventana_Principal(Ventana):
         else:
             self.variables = [var_name for var_name, status in vars if status.get() == 1]
 
-            m, corte_x, corte_y, ec_recta, r_squared, mse, mae = regresion_lineal(self.data, self.variables[0], indp)
+            m, corte_y, ec_recta, r_squared, mse, mae = regresion_lineal(self.data, self.variables[0], indp)
 
             self.et_variables.config(text=f"\nDatos: \nVariable X: {self.variables[0]}, Variable Y: {indp}")
-            self.et_recta.config(text=f"Ecuación recta: {ec_recta}, Pendiente: {m}")
-            self.et_cortes.config(text=f"Corte eje X: {corte_x}, Corte eje Y: {corte_y}")
-            self.et_errores.config(text=f"Error R^2: {r_squared}, Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
+            self.et_recta.config(text=f"Ecuación recta: {ec_recta}, Pendiente: ")
+            self.et_cortes.config(text=f"Corte eje X: , Corte eje Y: ")
+            self.et_errores.config(text=f"Coeficiente R^2: {r_squared}, Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
 
             # Eliminar el gráfico anterior si existe
             if hasattr(self, 'canvas_widget'):

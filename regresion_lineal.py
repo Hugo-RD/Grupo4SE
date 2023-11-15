@@ -33,11 +33,10 @@ def regresion_lineal(data, var1, var2):
     ordenada_al_origen = model.intercept_
 
     # Puntos de corte con los ejes
-    punto_de_corte_x = -ordenada_al_origen / pendiente
     punto_de_corte_y = ordenada_al_origen
 
     # Ecuacon de la recta
     ecuacion_recta = f"y = {pendiente}x + {ordenada_al_origen}"
 
-    return pendiente, punto_de_corte_x, punto_de_corte_y, ecuacion_recta, r_squared, mse, mae
+    return pendiente, punto_de_corte_y, ecuacion_recta, r_squared, mse, mae
 
