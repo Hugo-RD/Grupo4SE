@@ -40,3 +40,22 @@ def regresion_lineal(data, var1, var2):
 
     return pendiente, punto_de_corte_y, ecuacion_recta, r_squared, mse, mae
 
+class ModeloRegresionLineal:
+    def __init__(self, ecuacion_recta, coeficiente_r_cuadrado, error_cuadratico, error_absoluto):
+        self._ecuacion_recta = ecuacion_recta
+        self._coeficiente_r_cuadrado = coeficiente_r_cuadrado
+        self._error_cuadratico = error_cuadratico
+        self._error_absoluto = error_absoluto
+    
+    def get_ecuacion_recta(self):
+        return self._ecuacion_recta
+    
+    def get_coeficiente_r_cuadrado(self):
+        return self._coeficiente_r_cuadrado
+    
+    def get_error_cuadratico(self):
+        return self._error_cuadratico
+    
+    def get_error_absoluto(self):
+        return self._error_absoluto
+        
