@@ -8,11 +8,13 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, mean_absolute_error
+import pickle
 
 class Ventana_Principal(Ventana):
     def __init__(self):
         super().__init__(1000, 850, "Modelos de regresión lineal")
         self.frame_var = None  # Variable para el frame de variables
+        self.var_guardado = None
         self.variables = []    # Lista para almacenar las variables seleccionadas
 
         self.escoger_archivo()  # Crear el primer frame
@@ -124,6 +126,9 @@ class Ventana_Principal(Ventana):
 
             m, corte_y, ec_recta, r_squared, mse, mae = regresion_lineal(self.data, self.variables[0], indp)
 
+            #almacenamos las variables escogidas como un objeto modeloRR 
+            self.var_guardado = ModeloRegresionLineal(ec_recta, r_squared, mse, mae)
+
             self.et_variables.config(text=f"\nDatos: \nVariable X: {self.variables[0]}, Variable Y: {indp}")
             self.et_recta.config(text=f"Ecuación recta: {ec_recta}, Pendiente: ")
             self.et_cortes.config(text=f"Corte eje X: , Corte eje Y: ")
@@ -156,12 +161,26 @@ class Ventana_Principal(Ventana):
         frame_abajo.pack(side="bottom", pady=40)
 
         button_S = tkinter.Button(frame_abajo, text="Guardar modelo", bg="light grey",
-                                width=17, height=4)
+                                width=17, height=4, command=lambda: self.save_RR())
         button_S.pack(side="left", padx=10)
 
         button_L = tkinter.Button(frame_abajo, text="Cargar modelo", bg="light grey",
                                 width=17, height=4)
         button_L.pack(side="right", padx=10)
+
+    def save_RR(self):
+        if self.var_guardado is None:
+            Ventana_Error('No se seleccionó RR')
+        else:
+            file_path = filedialog.asksaveasfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
+
+            if file_path: 
+                with open(file_path, "wb") as archivo:
+                    #guardamos las variables escogidas en archivo local
+                    pickle.dump(self.var_guardado, archivo) 
+            #print de confirmacion
+            print(f"Datos guardados en {file_path}")
+
 
 if __name__ == "__main__":
     Ventana_Principal()
