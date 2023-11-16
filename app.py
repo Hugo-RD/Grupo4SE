@@ -169,6 +169,7 @@ class Ventana_Principal(Ventana):
         button_L.pack(side="right", padx=10)
 
     def save_RR(self):
+        # da funcionalidad al boton de guardado
         if self.var_guardado is None:
             Ventana_Error('No se seleccionó RR')
         else:
