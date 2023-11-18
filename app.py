@@ -107,11 +107,11 @@ class Ventana_Principal(Ventana):
         self.et_recta = tkinter.Label(self.frame_var, text="")
         result_labels.append(self.et_recta)
 
-        self.et_cortes = tkinter.Label(self.frame_var, text="")
-        result_labels.append(self.et_cortes)
-
         self.et_errores = tkinter.Label(self.frame_var, text="")
         result_labels.append(self.et_errores)
+
+        self.et_coef = tkinter.Label(self.frame_var, text="")
+        result_labels.append(self.et_coef)
 
         for label in result_labels:
             label.pack()
@@ -131,8 +131,8 @@ class Ventana_Principal(Ventana):
 
             self.et_variables.config(text=f"\nDatos: \nVariable X: {self.variables[0]}, Variable Y: {indp}")
             self.et_recta.config(text=f"Ecuación recta: {ec_recta}")
-            self.et_cortes.config(text=f"Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
-            self.et_errores.config(text=f"Coeficiente R^2: {r_squared}")
+            self.et_errores.config(text=f"Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
+            self.et_coef.config(text=f"Coeficiente R^2: {r_squared}")
 
             # Eliminar el gráfico anterior si existe
             if hasattr(self, 'canvas_widget'):
