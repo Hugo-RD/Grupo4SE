@@ -130,9 +130,9 @@ class Ventana_Principal(Ventana):
             self.var_guardado = ModeloRegresionLineal(ec_recta, r_squared, mse, mae)
 
             self.et_variables.config(text=f"\nDatos: \nVariable X: {self.variables[0]}, Variable Y: {indp}")
-            self.et_recta.config(text=f"Ecuación recta: {ec_recta}, Pendiente: ")
-            self.et_cortes.config(text=f"Corte eje X: , Corte eje Y: ")
-            self.et_errores.config(text=f"Coeficiente R^2: {r_squared}, Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
+            self.et_recta.config(text=f"Ecuación recta: {ec_recta}")
+            self.et_cortes.config(text=f"Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
+            self.et_errores.config(text=f"Coeficiente R^2: {r_squared}")
 
             # Eliminar el gráfico anterior si existe
             if hasattr(self, 'canvas_widget'):
