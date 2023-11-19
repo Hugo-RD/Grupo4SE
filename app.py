@@ -16,6 +16,7 @@ class Ventana_Principal(Ventana):
         self.frame_var = None  # Variable para el frame de variables
         self.var_guardado = None
         self.variables = []    # Lista para almacenar las variables seleccionadas
+        self.et_variables = tkinter.Label(self.frame_var, text="")
 
         self.escoger_archivo()  # Crear el primer frame
         self._save_load()       # Agregar botones de carga/guardado
@@ -182,22 +183,39 @@ class Ventana_Principal(Ventana):
             #print de confirmacion
             print(f"Datos guardados en {file_path}")
     
-
     def load_RR(self):
-        # da funcionalidad al boton de carga
+        # Da funcionalidad al botón de carga
         file_path = filedialog.askopenfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
-        #La linea anterior sirve para que al ejecutar deje al usuario escoger por pantalla el archivo a cargar
+
         if file_path:
+            # Borra el gráfico y los datos del modelo anterior si existen
+            self.borrar_grafico_anterior()
+            self.borrar_datos_anteriores()
+
             with open(file_path, "rb") as archivo:
-                # carga las variables desde el archivo local
+                # Carga las variables desde el archivo local
                 modelo = pickle.load(archivo)
-            # print de confirmación
+
+            # Print de confirmación
             print(f"Datos cargados desde {file_path}")
 
+            # Llama a la función para mostrar el modelo cargado
+            self.mostrar_modelo_cargado(modelo)
 
+    def borrar_grafico_anterior(self):
+        # Borra el gráfico anterior si existe
+        if hasattr(self, 'canvas_widget'):
+            self.canvas_widget.destroy()
+            del self.canvas_widget  # Elimina la referencia al objeto Canvas
+
+    def borrar_datos_anteriores(self):
+        # Borra las etiquetas de texto si existen
+        for label_name in ['et_variables', 'et_recta', 'et_errores', 'et_coef']:
+            if hasattr(self, label_name):
+                getattr(self, label_name).destroy()
+                delattr(self, label_name)  # Elimina la referencia al objeto Label
 
 
 if __name__ == "__main__":
     Ventana_Principal()
-
 
