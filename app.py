@@ -199,7 +199,30 @@ class Ventana_Principal(Ventana):
             # Print de confirmación
             print(f"Datos cargados desde {file_path}")
 
-            self.generar_RR([(var, tkinter.IntVar(value=1)) for var in self.variables], self.variables[0])
+            # Recrea el frame de variables si es necesario
+            if not hasattr(self, 'frame_var'):
+                self.frame_variables()
+
+            # Muestra los datos del modelo cargado
+            print("Antes de mostrar datos")
+            self.mostrar_datos_modelo(modelo)
+            print("Después de mostrar datos")
+
+
+    def mostrar_datos_modelo(self, modelo):
+        # Verifica si la etiqueta et_variables existe antes de configurar su texto
+        if hasattr(self, 'et_variables'):
+            # Obtiene los datos del modelo y los muestra por pantalla
+            ecuacion_recta = modelo.get_ecuacion_recta()
+            coeficiente_r_cuadrado = modelo.get_coeficiente_r_cuadrado()
+            error_cuadratico = modelo.get_error_cuadratico()
+            error_absoluto = modelo.get_error_absoluto()
+
+            # Configura las etiquetas para mostrar los datos del modelo
+            self.et_variables.config(text=f"\nDatos: \nVariable X: {self.variables[0]}, Variable Y: {self.variables[1]}")
+            self.et_recta.config(text=f"Ecuación recta: {ecuacion_recta}")
+            self.et_errores.config(text=f"Error cuadrático medio: {error_cuadratico}, Error absoluto medio: {error_absoluto}")
+            self.et_coef.config(text=f"Coeficiente R^2: {coeficiente_r_cuadrado}")
 
 
     def borrar_grafico_anterior(self):
