@@ -15,6 +15,7 @@ class Ventana_Principal(Ventana):
         super().__init__(1000, 850, "Modelos de regresión lineal")
         self.frame_var = None  # Variable para el frame de variables
         self.var_guardado = None
+        self.estado = False    #para saber cuando podemos guardar una RR
         self.variables = []    # Lista para almacenar las variables seleccionadas
         self.et_variables = tkinter.Label(self.frame_var, text="")
 
@@ -54,11 +55,13 @@ class Ventana_Principal(Ventana):
             else:
                 Ventana_Error("El archivo introducido\n no es válido")
                 return
-
+    
             self.et_path.config(text=f"Archivo cargado: {ruta}", bg="light blue")
 
-            if self.frame_var:
+            if self.frame_var: #si habia otro archivo escogido antes
                 self.frame_var.destroy()
+            if hasattr(self, 'frame_mod'): #si habia un modelo cargado
+                self.frame_mod.destroy()
             self.frame_variables()
         else:
             Ventana_Error("No se encontró\n ningún archivo")
@@ -100,41 +103,31 @@ class Ventana_Principal(Ventana):
                                             command=lambda: self.generar_RR(check_vars, radio_var.get()))
         self.boton_generar.pack(pady=20)
 
-        result_labels = []  # Lista para almacenar etiquetas y resultados
-
-        self.et_variables = tkinter.Label(self.frame_var, text="")
-        result_labels.append(self.et_variables)
-
-        self.et_recta = tkinter.Label(self.frame_var, text="")
-        result_labels.append(self.et_recta)
-
-        self.et_errores = tkinter.Label(self.frame_var, text="")
-        result_labels.append(self.et_errores)
-
-        self.et_coef = tkinter.Label(self.frame_var, text="")
-        result_labels.append(self.et_coef)
-
-        for label in result_labels:
-            label.pack()
 
     def generar_RR(self, vars, indp):
         cntx = sum(status.get() for _, status in vars)
 
         if cntx != 1:
-            Ventana_Error("Debe seleccionar exactamente 1 variable")
+            Ventana_Error("Debe seleccionar \nexactamente\n1 variable x")
         else:
+            #actualizamos estado
+            self.estado = True #ahora se puede guardar
+            #buscamos variable seleccionada
             self.variables = [var_name for var_name, status in vars if status.get() == 1]
 
             m, corte_y, ec_recta, r_squared, mse, mae = regresion_lineal(self.data, self.variables[0], indp)
 
             #almacenamos las variables escogidas como un objeto modeloRR 
-            self.var_guardado = ModeloRegresionLineal(ec_recta, r_squared, mse, mae)
+            self.var_guardado = ModeloRegresionLineal(self.variables[0], indp, ec_recta, r_squared, mse, mae)
+            
+            if hasattr(self, 'frame_var2'):
+                self.frame_var2.destroy()
 
-            self.et_variables.config(text=f"\nDatos: \nVariable X: {self.variables[0]}, Variable Y: {indp}")
-            self.et_recta.config(text=f"Ecuación recta: {ec_recta}")
-            self.et_errores.config(text=f"Error cuadrático medio: {mse}, Error absoluto medio: {mae}")
-            self.et_coef.config(text=f"Coeficiente R^2: {r_squared}")
+            self.frame_var2 = tkinter.Frame(self.frame_var)
+            self.frame_var2.pack(pady=10)
 
+            self.show_model(self.frame_var2, self.var_guardado)
+            
             # Eliminar el gráfico anterior si existe
             if hasattr(self, 'canvas_widget'):
                 self.canvas_widget.destroy()
@@ -171,9 +164,8 @@ class Ventana_Principal(Ventana):
 
     def save_RR(self):
         # da funcionalidad al boton de guardado
-        if self.var_guardado is None:
-            Ventana_Error('No se seleccionó RR')
-        else:
+        if self.estado:
+
             file_path = filedialog.asksaveasfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
 
             if file_path: 
@@ -182,62 +174,58 @@ class Ventana_Principal(Ventana):
                     pickle.dump(self.var_guardado, archivo) 
             #print de confirmacion
             print(f"Datos guardados en {file_path}")
+        else:
+            Ventana_Error('No se creó un modelo')
     
     def load_RR(self):
         # Da funcionalidad al botón de carga
         file_path = filedialog.askopenfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
 
         if file_path:
-            # Borra el gráfico y los datos del modelo anterior si existen
-            self.borrar_grafico_anterior()
-            self.borrar_datos_anteriores()
-
             with open(file_path, "rb") as archivo:
                 # Carga las variables desde el archivo local
                 modelo = pickle.load(archivo)
 
             # Print de confirmación
             print(f"Datos cargados desde {file_path}")
+            #mostrar ruta archivo cargado
+            self.et_path.config(text=file_path, bg="light blue")
+            self.load_frame(modelo) #creamos frame del modelo
 
-            # Recrea el frame de variables si es necesario
-            if not hasattr(self, 'frame_var'):
-                self.frame_variables()
+    def load_frame(self, modelo):
+        # Borramos el frame de variables si existe
+        if self.frame_var:
+            self.frame_var.destroy()
+        # Borramos el frame de variables del modelo si existe
+        if hasattr(self, 'frame_mod'):
+            self.frame_mod.destroy()
 
-            # Muestra los datos del modelo cargado
-            print("Antes de mostrar datos")
-            self.mostrar_datos_modelo(modelo)
-            print("Después de mostrar datos")
+        #actualizamos el estado
+        self.estado = False
+        #creamos frame modelo
+        self.frame_mod = tkinter.Frame(self.ventana)
+        self.frame_mod.pack()
 
+        exito = tkinter.Label(self.frame_mod, text="Se cargó el documento .pkl con éxito")
+        exito.pack(pady=15)
 
-    def mostrar_datos_modelo(self, modelo):
-        # Verifica si la etiqueta et_variables existe antes de configurar su texto
-        if hasattr(self, 'et_variables'):
-            # Obtiene los datos del modelo y los muestra por pantalla
-            ecuacion_recta = modelo.get_ecuacion_recta()
-            coeficiente_r_cuadrado = modelo.get_coeficiente_r_cuadrado()
-            error_cuadratico = modelo.get_error_cuadratico()
-            error_absoluto = modelo.get_error_absoluto()
-
-            # Configura las etiquetas para mostrar los datos del modelo
-            self.et_variables.config(text=f"\nDatos: \nVariable X: {self.variables[0]}, Variable Y: {self.variables[1]}")
-            self.et_recta.config(text=f"Ecuación recta: {ecuacion_recta}")
-            self.et_errores.config(text=f"Error cuadrático medio: {error_cuadratico}, Error absoluto medio: {error_absoluto}")
-            self.et_coef.config(text=f"Coeficiente R^2: {coeficiente_r_cuadrado}")
+        #se crea frame para las variables a cargar
+        var_frame = tkinter.Frame(self.frame_mod)
+        var_frame.pack(pady=25) 
+        #creamos las etiquetas de las variables
+        self.show_model(var_frame, modelo)
 
 
-    def borrar_grafico_anterior(self):
-        # Borra el gráfico anterior si existe
-        if hasattr(self, 'canvas_widget'):
-            self.canvas_widget.destroy()
-            del self.canvas_widget  # Elimina la referencia al objeto Canvas
-
-    def borrar_datos_anteriores(self):
-        # Borra las etiquetas de texto si existen
-        for label_name in ['et_variables', 'et_recta', 'et_errores', 'et_coef']:
-            if hasattr(self, label_name):
-                getattr(self, label_name).destroy()
-                delattr(self, label_name)  # Elimina la referencia al objeto Label
-
+    def show_model(self, frame, modelo):
+        et_variables = tkinter.Label(frame, text=f"\nDatos: \nVariable X: {modelo.get_x()}, Variable Y: {modelo.get_y()}")
+        et_recta = tkinter.Label(frame, text=f"Ecuación recta: {modelo.get_ecuacion_recta()}")
+        et_errores = tkinter.Label(frame, text=f"Error cuadrático medio: {modelo.get_cuadratico()}, Error absoluto medio: {modelo.get_absoluto()}")
+        et_coef = tkinter.Label(frame, text=f"Coeficiente R^2: {modelo.get_r_cuadrado()}")
+        #las enseñamos
+        et_variables.pack()
+        et_recta.pack()
+        et_errores.pack()
+        et_coef.pack()
 
 if __name__ == "__main__":
     Ventana_Principal()
