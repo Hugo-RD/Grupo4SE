@@ -199,8 +199,8 @@ class Ventana_Principal(Ventana):
             # Print de confirmación
             print(f"Datos cargados desde {file_path}")
 
-            # Llama a la función para mostrar el modelo cargado
-            self.mostrar_modelo_cargado(modelo)
+            self.generar_RR([(var, tkinter.IntVar(value=1)) for var in self.variables], self.variables[0])
+
 
     def borrar_grafico_anterior(self):
         # Borra el gráfico anterior si existe
