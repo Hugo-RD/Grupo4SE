@@ -15,7 +15,7 @@ class Ventana_Principal(Ventana):
         super().__init__(1000, 850, "Modelos de regresión lineal")
         self.frame_var = None  # Variable para el frame de variables
         self.var_guardado = None
-        self.estado = False    #para saber cuando podemos guardar una RR
+        self.estado = False    #inhabilita boton de guardado
         self.variables = []    # Lista para almacenar las variables seleccionadas
         self.et_variables = tkinter.Label(self.frame_var, text="")
 
@@ -111,7 +111,7 @@ class Ventana_Principal(Ventana):
             Ventana_Error("Debe seleccionar \nexactamente\n1 variable x")
         else:
             #actualizamos estado
-            self.estado = True #ahora se puede guardar
+            self.estado = True #habilita boton de guardado
             #buscamos variable seleccionada
             self.variables = [var_name for var_name, status in vars if status.get() == 1]
 
@@ -201,7 +201,7 @@ class Ventana_Principal(Ventana):
             self.frame_mod.destroy()
 
         #actualizamos el estado
-        self.estado = False
+        self.estado = False # inhabilita el boton de guardado
         #creamos frame modelo
         self.frame_mod = tkinter.Frame(self.ventana)
         self.frame_mod.pack()
