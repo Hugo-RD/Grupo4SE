@@ -165,7 +165,7 @@ class Ventana_Principal(Ventana):
         button_S.pack(side="left", padx=10)
 
         button_L = tkinter.Button(frame_abajo, text="Cargar modelo", bg="light grey",
-                                width=17, height=4)
+                                width=17, height=4, command= lambda: self.load_RR())
         button_L.pack(side="right", padx=10)
 
     def save_RR(self):
@@ -181,7 +181,23 @@ class Ventana_Principal(Ventana):
                     pickle.dump(self.var_guardado, archivo) 
             #print de confirmacion
             print(f"Datos guardados en {file_path}")
+    
+
+    def load_RR(self):
+        # da funcionalidad al boton de carga
+        file_path = filedialog.askopenfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
+        #La linea anterior sirve para que al ejecutar deje al usuario escoger por pantalla el archivo a cargar
+        if file_path:
+            with open(file_path, "rb") as archivo:
+                # carga las variables desde el archivo local
+                modelo = pickle.load(archivo)
+            # print de confirmación
+            print(f"Datos cargados desde {file_path}")
+
+
 
 
 if __name__ == "__main__":
     Ventana_Principal()
+
+
