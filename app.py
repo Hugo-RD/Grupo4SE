@@ -126,7 +126,7 @@ class Ventana_Principal(Ventana):
             self.frame_var2 = tkinter.Frame(self.frame_var)
             self.frame_var2.pack(pady=10)
 
-            self.show_model(self.frame_var2, self.var_guardado)
+            self.show_model(self.frame_var2, self.var_guardado, 33)
             
             # Eliminar el gráfico anterior si existe
             if hasattr(self, 'canvas_widget'):
@@ -213,16 +213,19 @@ class Ventana_Principal(Ventana):
         var_frame = tkinter.Frame(self.frame_mod)
         var_frame.pack(pady=25) 
         #creamos las etiquetas de las variables
-        self.show_model(var_frame, modelo)
+        self.show_model(var_frame, modelo, 0)
 
 
-    def show_model(self, frame, modelo):
-        et_variables = tkinter.Label(frame, text=f"\nDatos: \nVariable X: {modelo.get_x()}, Variable Y: {modelo.get_y()}")
+    def show_model(self, frame, modelo, cnt):
+        if cnt == 0: 
+            #solo entra cuando se muestra un archivo cargado
+            et_variables = tkinter.Label(frame, text=f"\nDatos: \nVariable X: {modelo.get_x()}, Variable Y: {modelo.get_y()}")
+            et_variables.pack()
         et_recta = tkinter.Label(frame, text=f"Ecuación recta: {modelo.get_ecuacion_recta()}")
         et_errores = tkinter.Label(frame, text=f"Error cuadrático medio: {modelo.get_cuadratico()}, Error absoluto medio: {modelo.get_absoluto()}")
         et_coef = tkinter.Label(frame, text=f"Coeficiente R^2: {modelo.get_r_cuadrado()}")
         #las enseñamos
-        et_variables.pack()
+        
         et_recta.pack()
         et_errores.pack()
         et_coef.pack()
