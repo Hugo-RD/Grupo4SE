@@ -33,11 +33,13 @@ class Ventana_Principal(Ventana):
 
         self.boton_escoger = tkinter.Button(self.frame_base, text="Escoger archivo",
                                             command=self.__escoger_archivo,
-                                            bg="light grey", width=17, height=4)
-        self.boton_escoger.pack()
+                                            bg="light grey", width=17, height=0)
+        
+        self.boton_escoger.pack(side=tkinter.LEFT, padx=10)
 
         self.et_path = tkinter.Label(self.frame_base)
         self.et_path.pack()
+        
 
     def __escoger_archivo(self):
         # Buscar archivo a cargar en la biblioteca
@@ -57,6 +59,7 @@ class Ventana_Principal(Ventana):
                 return
     
             self.et_path.config(text=f"Archivo cargado: {ruta}", bg="light blue")
+            self.et_path.pack_configure(pady=10)
 
             if self.frame_var: #si habia otro archivo escogido antes
                 self.frame_var.destroy()
@@ -155,11 +158,11 @@ class Ventana_Principal(Ventana):
         frame_abajo.pack(side="bottom", pady=40)
 
         button_S = tkinter.Button(frame_abajo, text="Guardar modelo", bg="light grey",
-                                width=17, height=4, command=lambda: self.save_RR())
+                                width=17, height=2, command=lambda: self.save_RR())
         button_S.pack(side="left", padx=10)
 
         button_L = tkinter.Button(frame_abajo, text="Cargar modelo", bg="light grey",
-                                width=17, height=4, command= lambda: self.load_RR())
+                                width=17, height=2, command= lambda: self.load_RR())
         button_L.pack(side="right", padx=10)
 
     def save_RR(self):
