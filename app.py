@@ -156,6 +156,7 @@ class Ventana_Principal(Ventana):
             show_preddict(self.frame_var2, self.var_guardado, 33)
             
     def _save_load(self):
+        #frame boton de carga
         frame_abajo = tkinter.Frame(self.ventana)
         frame_abajo.pack(side="bottom", pady=40)
 
