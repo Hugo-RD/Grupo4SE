@@ -38,7 +38,7 @@ def regresion_lineal(data, var1, var2):
     # Ecuacon de la recta
     ecuacion_recta = f"y = {pendiente}x + {ordenada_al_origen}"
 
-    return pendiente, punto_de_corte_y, ecuacion_recta, r_squared, mse, mae
+    return pendiente, punto_de_corte_y, ecuacion_recta, r_squared, mse, mae, ordenada_al_origen
 
 class ModeloRegresionLineal:
     def __init__(self, x, y, ecuacion_recta, coeficiente_r_cuadrado, error_cuadratico, error_absoluto):

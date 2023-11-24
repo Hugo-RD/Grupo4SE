@@ -115,7 +115,7 @@ class Ventana_Principal(Ventana):
             #buscamos variable seleccionada
             self.variables = [var_name for var_name, status in vars if status.get() == 1]
 
-            m, corte_y, ec_recta, r_squared, mse, mae = regresion_lineal(self.data, self.variables[0], indp)
+            m, corte_y, ec_recta, r_squared, mse, mae, n = regresion_lineal(self.data, self.variables[0], indp)
 
             #almacenamos las variables escogidas como un objeto modeloRR 
             self.var_guardado = ModeloRegresionLineal(self.variables[0], indp, ec_recta, r_squared, mse, mae)
@@ -127,7 +127,8 @@ class Ventana_Principal(Ventana):
             self.frame_var2.pack(pady=10)
 
             self.show_model(self.frame_var2, self.var_guardado, 33)
-            
+            self.show_preddict(self.frame_var2, self.var_guardado, 33)
+
             # Eliminar el gráfico anterior si existe
             if hasattr(self, 'canvas_widget'):
                 self.canvas_widget.destroy()
@@ -185,7 +186,9 @@ class Ventana_Principal(Ventana):
             # Print de confirmación
             print(f"Datos cargados desde {file_path}")
             #mostrar ruta archivo cargado
-            self.et_path.config(text=file_path, bg="light blue")
+            self.et_path.config(text=f"Archivo cargado: {file_path}", bg="light blue")
+            self.et_path.pack_configure(pady=15)
+
             self.load_frame(modelo) #creamos frame del modelo
 
     def load_frame(self, modelo):
@@ -210,6 +213,7 @@ class Ventana_Principal(Ventana):
         var_frame.pack(pady=25) 
         #creamos las etiquetas de las variables
         self.show_model(var_frame, modelo, 0)
+        self.show_preddict(var_frame, modelo, 0)
 
 
     def show_model(self, frame, modelo, cnt):
@@ -225,6 +229,26 @@ class Ventana_Principal(Ventana):
         et_recta.pack()
         et_errores.pack()
         et_coef.pack()
+
+    def show_preddict(self, frame, modelo, cnt):
+
+        """etiqueta fran 1"""
+
+        if cnt!=0: #solo entra con archivos no cargados
+            et_showX = tkinter.Label(frame, text= f"Variable x: {modelo.get_x()}")
+            et_showX.pack(pady=20)
+
+            
+        frame_pred = tkinter.Frame(frame)
+        frame_pred.pack(pady=10)
+
+        """etiqueta fran 2"""
+        
+        entry = tkinter.Entry(frame_pred, width=30)
+        entry.pack(side=tkinter.RIGHT, padx=10)
+        #con entry.get() se coge lo escrito
+
+        """botón costo"""
 
 if __name__ == "__main__":
     Ventana_Principal()
