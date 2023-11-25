@@ -72,7 +72,7 @@ class Ventana_Principal(Ventana):
         self.frame_var = tkinter.Frame(self.ventana)
         self.frame_var.pack()
 
-        titulo_var = tkinter.Label(self.frame_var, text="\nEscoja 2 variables\n")
+        titulo_var = tkinter.Label(self.frame_var, text="\nSeleccione 2 variables\n")
         titulo_var.pack()
 
         var_list = diferenciar_variables(self.data)  # Buscar variables numéricas
