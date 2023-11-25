@@ -232,7 +232,7 @@ class Ventana_Principal(Ventana):
 
         # Eliminar widgets del frame base (excepto el botón de escoger archivo)
         for widget in self.frame_base.winfo_children():
-            if widget != self.boton_escoger:
+            if widget != self.boton_escoger and widget != self.et_path:
                 widget.destroy()
                 
         #actualizamos el estado
