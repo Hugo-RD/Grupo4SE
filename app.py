@@ -13,7 +13,7 @@ from show_and_predict import *
 
 class Ventana_Principal(Ventana):
     def __init__(self):
-        super().__init__(1000, 850, "Modelos de regresión lineal")
+        super().__init__(1000, 800, "Modelos de regresión lineal")
         self.frame_var = None  # Variable para el frame de variables
         self.var_guardado = None
         self.estado = False    #inhabilita boton de guardado
