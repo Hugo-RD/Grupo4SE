@@ -118,7 +118,6 @@ class Ventana_Principal(Ventana):
         combo_x.bind("<<ComboboxSelected>>", lambda event: verificar_seleccion())
         combo_y.bind("<<ComboboxSelected>>", lambda event: verificar_seleccion())
 
-
     def generar_RR(self, combo_x, combo_y):
         var_x = combo_x.get()
         var_y = combo_y.get()
@@ -170,6 +169,9 @@ class Ventana_Principal(Ventana):
 
             # Opción a hacer una predicción
             show_preddict(self.frame_var2, self.var_guardado, 33)
+
+            # Habilitar el botón "Guardar modelo" después de generar un modelo
+            self.button_S['state'] = 'normal'
             
     def _save_load(self):
         #frame boton de carga
@@ -179,6 +181,13 @@ class Ventana_Principal(Ventana):
         button_L = tkinter.Button(frame_abajo, text="Cargar modelo", bg="light grey",
                                 width=17, height=2, command= lambda: self.load_RR())
         button_L.pack(side="right", padx=10, pady=15)
+
+        self.button_S = tkinter.Button(frame_abajo, text="Guardar modelo", bg="light grey",
+                                       width=17, height=2, command=lambda: self.save_RR())
+        self.button_S.pack(side="right", padx=10, pady=15)
+
+        # Deshabilitar el botón al inicio
+        self.button_S['state'] = 'disabled'
 
     def save_RR(self):
         # da funcionalidad al boton de guardado
@@ -192,6 +201,7 @@ class Ventana_Principal(Ventana):
                     pickle.dump(self.var_guardado, archivo) 
             #print de confirmacion
             print(f"Datos guardados en {file_path}")
+
         else:
             Ventana_Error('No se creó un modelo')
     
