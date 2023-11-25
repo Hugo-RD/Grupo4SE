@@ -135,7 +135,7 @@ class Ventana_Principal(Ventana):
             m, corte_y, ec_recta, r_squared, mse, mae, n = regresion_lineal(self.data, var_x, var_y)
 
             # Almacenamos las variables escogidas como un objeto modeloRR
-            self.var_guardado = ModeloRegresionLineal(var_x, var_y, ec_recta, r_squared, mse, mae)
+            self.var_guardado = ModeloRegresionLineal(var_x, var_y, ec_recta, r_squared, mse, mae, m, n)
 
             if hasattr(self, 'frame_var2'):
                 self.frame_var2.destroy()
