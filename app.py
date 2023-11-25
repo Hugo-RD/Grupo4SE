@@ -230,6 +230,11 @@ class Ventana_Principal(Ventana):
         if hasattr(self, 'frame_mod'):
             self.frame_mod.destroy()
 
+        # Eliminar widgets del frame base (excepto el botón de escoger archivo)
+        for widget in self.frame_base.winfo_children():
+            if widget != self.boton_escoger:
+                widget.destroy()
+                
         #actualizamos el estado
         self.estado = False # inhabilita el boton de guardado
         #creamos frame modelo
