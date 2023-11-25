@@ -102,6 +102,22 @@ class Ventana_Principal(Ventana):
         self.et_path = tkinter.Label(self.frame_base)
         self.et_path.pack()
 
+        # Deshabilitar el botón inicialmente
+        self.boton_generar['state'] = 'disabled'
+
+        self.boton_generar.pack(side=tkinter.LEFT, padx=5, pady=15)
+
+        # Verificar si se han seleccionado dos variables antes de habilitar el botón
+        def verificar_seleccion():
+            if combo_x.get() != "Seleccionar X" and combo_y.get() != "Seleccionar Y":
+                self.boton_generar['state'] = 'normal'
+            else:
+                self.boton_generar['state'] = 'disabled'
+
+        # Vincular la función de verificación a los Combobox
+        combo_x.bind("<<ComboboxSelected>>", lambda event: verificar_seleccion())
+        combo_y.bind("<<ComboboxSelected>>", lambda event: verificar_seleccion())
+
 
     def generar_RR(self, vars, indp):
         cntx = sum(status.get() for _, status in vars)
