@@ -95,7 +95,7 @@ class Ventana_Principal(Ventana):
 
         self.boton_generar = tkinter.Button(self.frame_base, text="Generar Recta de Regresión",
                                             bg="light grey", width=21, height=0,
-                                            command=lambda: self.generar_RR())
+                                            command=lambda: self.generar_RR(combo_x, combo_y))
 
         self.boton_generar.pack(side=tkinter.LEFT, padx=5, pady=15)
 
@@ -119,22 +119,25 @@ class Ventana_Principal(Ventana):
         combo_y.bind("<<ComboboxSelected>>", lambda event: verificar_seleccion())
 
 
-    def generar_RR(self, vars, indp):
-        cntx = sum(status.get() for _, status in vars)
+    def generar_RR(self, combo_x, combo_y):
+        var_x = combo_x.get()
+        var_y = combo_y.get()
 
-        if cntx != 1:
-            Ventana_Error("Debe seleccionar \nexactamente\n1 variable x")
+        if var_x == "Seleccionar X" or var_y == "Seleccionar Y":
+            Ventana_Error("Debe seleccionar dos variables para X e Y")
+            return
+        
         else:
-            #actualizamos estado
-            self.estado = True #habilita boton de guardado
-            #buscamos variable seleccionada
-            self.variables = [var_name for var_name, status in vars if status.get() == 1]
+            # Actualizamos estado
+            self.estado = True  # Habilita el botón de guardado
+            # Buscamos variable seleccionada
+            self.variables = [var_x]
 
-            m, corte_y, ec_recta, r_squared, mse, mae, n = regresion_lineal(self.data, self.variables[0], indp)
+            m, corte_y, ec_recta, r_squared, mse, mae, n = regresion_lineal(self.data, var_x, var_y)
 
-            #almacenamos las variables escogidas como un objeto modeloRR 
-            self.var_guardado = ModeloRegresionLineal(self.variables[0], indp, ec_recta, r_squared, mse, mae)
-            
+            # Almacenamos las variables escogidas como un objeto modeloRR
+            self.var_guardado = ModeloRegresionLineal(var_x, var_y, ec_recta, r_squared, mse, mae)
+
             if hasattr(self, 'frame_var2'):
                 self.frame_var2.destroy()
 
@@ -142,18 +145,18 @@ class Ventana_Principal(Ventana):
             self.frame_var2.pack(pady=10)
 
             show_model(self.frame_var2, self.var_guardado, 33)
-            
+
             # Eliminar el gráfico anterior si existe
             if hasattr(self, 'canvas_widget'):
                 self.canvas_widget.destroy()
 
             # Crear un gráfico y mostrarlo en la misma ventana
             fig, ax = plt.subplots(figsize=(6, 4), dpi=100)
-            ax.scatter(self.data[self.variables[0]], self.data[indp], label="Datos reales")
-            ax.plot(self.data[self.variables[0]], m * self.data[self.variables[0]] + corte_y, color='red', label="Predicciones")
+            ax.scatter(self.data[var_x], self.data[var_y], label="Datos reales")
+            ax.plot(self.data[var_x], m * self.data[var_x] + corte_y, color='red', label="Predicciones")
 
-            ax.set_xlabel(self.variables[0])
-            ax.set_ylabel(indp)
+            ax.set_xlabel(var_x)
+            ax.set_ylabel(var_y)
 
             ax.legend()
 
@@ -165,7 +168,7 @@ class Ventana_Principal(Ventana):
             # Cerrar la ventana de gráficos externa
             plt.close()
 
-            #opción a hacer una prediccion
+            # Opción a hacer una predicción
             show_preddict(self.frame_var2, self.var_guardado, 33)
             
     def _save_load(self):
