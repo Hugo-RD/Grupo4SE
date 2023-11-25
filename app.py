@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import filedialog
+from tkinter import ttk, filedialog
 from ventanas_auxiliares import *
 from regresion_lineal import *
 from leer_archivos import *
@@ -33,7 +33,7 @@ class Ventana_Principal(Ventana):
                                             command=self.__escoger_archivo,
                                             bg="light grey", width=17, height=0)
         
-        self.boton_escoger.pack(side=tkinter.LEFT, padx=10, pady=15)
+        self.boton_escoger.pack(side=tkinter.LEFT, padx=5, pady=15)
 
         self.et_path = tkinter.Label(self.frame_base)
         self.et_path.pack()
@@ -56,8 +56,8 @@ class Ventana_Principal(Ventana):
                 Ventana_Error("El archivo introducido\n no es válido")
                 return
     
-            self.et_path.config(text=f"Archivo cargado: {ruta}", bg="light blue")
-            self.et_path.pack_configure(pady=15)
+            self.et_path.config(text=f"Archivo cargado: {ruta[:50]}...", bg="light blue")
+            self.et_path.pack_configure(side=tkinter.LEFT, padx= 5, pady=15)
 
             if self.frame_var: #si habia otro archivo escogido antes
                 self.frame_var.destroy()
@@ -83,26 +83,24 @@ class Ventana_Principal(Ventana):
         check_frame = tkinter.Frame(self.frame_var)
         check_frame.pack()
 
-        # Crear checkboxes para cada variable y mostrarlos en horizontal
-        for var in var_list:
-            var_control = tkinter.IntVar()  # Crear una variable de control para el checkbox
-            checkbox = tkinter.Checkbutton(check_frame, text=var, variable=var_control)
-            checkbox.pack(side=tkinter.LEFT)  # Mostrar los checkboxes en horizontal
-            check_vars.append((var, var_control))  # Almacenar el nombre de la variable y su variable de control
+        # Combobox para la variable X
+        combo_x = ttk.Combobox(self.frame_base, values=var_list, state="readonly", width=16)
+        combo_x.set("Seleccionar X")
+        combo_x.pack(side=tkinter.LEFT, padx=5, pady=15)
 
-        # Crear un marco para los radiobuttons
-        radio_frame = tkinter.Frame(self.frame_var)
-        radio_frame.pack(pady=10)
+        # Combobox para la variable Y
+        combo_y = ttk.Combobox(self.frame_base, values=var_list, state="readonly", width=16)
+        combo_y.set("Seleccionar Y")
+        combo_y.pack(side=tkinter.LEFT, padx=5, pady=15)
 
-        # Crear radiobuttons para cada opción en la segunda fila y mostrarlos en horizontal
-        for var in var_list:
-            radio_button = tkinter.Radiobutton(radio_frame, text=var, variable=radio_var, value=var)
-            radio_button.pack(side=tkinter.LEFT)  # Mostrar los radiobuttons en horizontal
+        self.boton_generar = tkinter.Button(self.frame_base, text="Generar Recta de Regresión",
+                                            bg="light grey", width=21, height=0,
+                                            command=lambda: self.generar_RR())
 
-        self.boton_generar = tkinter.Button(self.frame_var, text="Generar Recta de Regresión",
-                                            bg="light grey", width=25, height=2,
-                                            command=lambda: self.generar_RR(check_vars, radio_var.get()))
-        self.boton_generar.pack(pady=20)
+        self.boton_generar.pack(side=tkinter.LEFT, padx=5, pady=15)
+
+        self.et_path = tkinter.Label(self.frame_base)
+        self.et_path.pack()
 
 
     def generar_RR(self, vars, indp):
@@ -129,7 +127,6 @@ class Ventana_Principal(Ventana):
 
             show_model(self.frame_var2, self.var_guardado, 33)
             
-
             # Eliminar el gráfico anterior si existe
             if hasattr(self, 'canvas_widget'):
                 self.canvas_widget.destroy()
