@@ -1,6 +1,7 @@
 import tkinter
 
-def show_model(frame, modelo, cnt):      
+def show_model(frame, modelo, cnt):   
+  
     if cnt == 0: 
         #solo entra cuando se muestra un archivo cargado
         et_variables = tkinter.Label(frame, text=f"\nDatos: \nVariable X: {modelo.get_x()}, Variable Y: {modelo.get_y()}")

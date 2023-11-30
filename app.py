@@ -1,15 +1,16 @@
 import tkinter
 from tkinter import ttk, filedialog
+
+
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
+"""nuestros archivos"""
+from show_and_predict import *
 from ventanas_auxiliares import *
 from regresion_lineal import *
 from leer_archivos import *
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from sklearn.linear_model import LinearRegression
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.metrics import mean_squared_error, mean_absolute_error
-import pickle
-from show_and_predict import *
+from guardar_cargar_archivos import *
+from generarRR_ventana import *
 
 class Ventana_Principal(Ventana):
     def __init__(self):
@@ -76,13 +77,7 @@ class Ventana_Principal(Ventana):
         titulo_var.pack()
 
         var_list = diferenciar_variables(self.data)  # Buscar variables numéricas
-        check_vars = []
-        radio_var = tkinter.StringVar()  # Variable de control para los radiobuttons
-
-        # Crear un marco para los checkboxes
-        check_frame = tkinter.Frame(self.frame_var)
-        check_frame.pack()
-
+        
         # Combobox para la variable X
         combo_x = ttk.Combobox(self.frame_base, values=var_list, state="readonly", width=16)
         combo_x.set("Seleccionar X")
@@ -95,12 +90,9 @@ class Ventana_Principal(Ventana):
 
         self.boton_generar = tkinter.Button(self.frame_base, text="Generar Recta de Regresión",
                                             bg="light grey", width=21, height=0,
-                                            command=lambda: self.generar_RR(combo_x, combo_y))
+                                            command=lambda: generar_RR(self, combo_x, combo_y))
 
         self.boton_generar.pack(side=tkinter.LEFT, padx=5, pady=15)
-
-        self.et_path = tkinter.Label(self.frame_base)
-        self.et_path.pack()
 
         # Deshabilitar el botón inicialmente
         self.boton_generar['state'] = 'disabled'
@@ -118,107 +110,27 @@ class Ventana_Principal(Ventana):
         combo_x.bind("<<ComboboxSelected>>", lambda event: verificar_seleccion())
         combo_y.bind("<<ComboboxSelected>>", lambda event: verificar_seleccion())
 
-    def generar_RR(self, combo_x, combo_y):
-        var_x = combo_x.get()
-        var_y = combo_y.get()
-
-        if var_x == "Seleccionar X" or var_y == "Seleccionar Y":
-            Ventana_Error("Debe seleccionar dos variables para X e Y")
-            return
-        
-        else:
-            # Actualizamos estado
-            self.estado = True  # Habilita el botón de guardado
-            # Buscamos variable seleccionada
-            self.variables = [var_x]
-
-            m, corte_y, ec_recta, r_squared, mse, mae, n = regresion_lineal(self.data, var_x, var_y)
-
-            # Almacenamos las variables escogidas como un objeto modeloRR
-            self.var_guardado = ModeloRegresionLineal(var_x, var_y, ec_recta, r_squared, mse, mae, m, n)
-
-            if hasattr(self, 'frame_var2'):
-                self.frame_var2.destroy()
-
-            self.frame_var2 = tkinter.Frame(self.frame_var)
-            self.frame_var2.pack(pady=10)
-
-            show_model(self.frame_var2, self.var_guardado, 33)
-
-            # Eliminar el gráfico anterior si existe
-            if hasattr(self, 'canvas_widget'):
-                self.canvas_widget.destroy()
-
-            # Crear un gráfico y mostrarlo en la misma ventana
-            fig, ax = plt.subplots(figsize=(6, 4), dpi=100)
-            ax.scatter(self.data[var_x], self.data[var_y], label="Datos reales")
-            ax.plot(self.data[var_x], m * self.data[var_x] + corte_y, color='red', label="Predicciones")
-
-            ax.set_xlabel(var_x)
-            ax.set_ylabel(var_y)
-
-            ax.legend()
-
-            # Incorporar el gráfico en la interfaz
-            canvas = FigureCanvasTkAgg(fig, master=self.frame_var)
-            self.canvas_widget = canvas.get_tk_widget()
-            self.canvas_widget.pack()
-
-            # Cerrar la ventana de gráficos externa
-            plt.close()
-
-            # Opción a hacer una predicción
-            show_preddict(self.frame_var2, self.var_guardado)
-
-            # Habilitar el botón "Guardar modelo" después de generar un modelo
-            self.button_S['state'] = 'normal'
-            
+          
     def _save_load(self):
         #frame boton de carga
         frame_abajo = tkinter.Frame(self.ventana)
         frame_abajo.pack(side="bottom", pady=40)
 
         button_L = tkinter.Button(frame_abajo, text="Cargar modelo", bg="light grey",
-                                width=17, height=2, command= lambda: self.load_RR())
+                                width=17, height=2, command= lambda: load_RR(self))
         button_L.pack(side="right", padx=10, pady=15)
 
+        #necesitamos que esté con self para poder deshabilitarlo
         self.button_S = tkinter.Button(frame_abajo, text="Guardar modelo", bg="light grey",
-                                       width=17, height=2, command=lambda: self.save_RR())
+                                       width=17, height=2, command=lambda: save_RR(self.var_guardado))
         self.button_S.pack(side="right", padx=10, pady=15)
 
         # Deshabilitar el botón al inicio
         self.button_S['state'] = 'disabled'
 
-    def save_RR(self):
-        # da funcionalidad al boton de guardado
-        file_path = filedialog.asksaveasfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
-
-        if file_path: 
-            with open(file_path, "wb") as archivo:
-                #guardamos las variables escogidas en archivo local
-                pickle.dump(self.var_guardado, archivo) 
-        #print de confirmacion
-        print(f"Datos guardados en {file_path}")
-
-    
-    def load_RR(self):
-        # Da funcionalidad al botón de carga
-        file_path = filedialog.askopenfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
-
-        if file_path:
-            with open(file_path, "rb") as archivo:
-                # Carga las variables desde el archivo local
-                modelo = pickle.load(archivo)
-
-            # Print de confirmación
-            print(f"Datos cargados desde {file_path}")
-            #mostrar ruta archivo cargado
-            self.et_path.config(text=f"Archivo cargado: {file_path}", bg="light blue")
-            self.et_path.pack_configure(pady=15)
-
-            self.load_frame(modelo) #creamos frame del modelo
-
     def load_frame(self, modelo):
+        #deshabilitar el boton de guardado
+        self.button_S['state'] = 'disabled'
         # Borramos el frame de variables si existe
         if self.frame_var:
             self.frame_var.destroy()
@@ -231,8 +143,7 @@ class Ventana_Principal(Ventana):
             if widget != self.boton_escoger and widget != self.et_path:
                 widget.destroy()
                 
-        #actualizamos el estado
-        self.estado = False # inhabilita el boton de guardado
+        
         #creamos frame modelo
         self.frame_mod = tkinter.Frame(self.ventana)
         self.frame_mod.pack()
