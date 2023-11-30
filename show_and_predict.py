@@ -15,7 +15,7 @@ def show_model(frame, modelo, cnt):
     et_coef.pack()
 
 
-def show_preddict(frame, modelo, cnt):
+def show_preddict(frame, modelo):
 
     """etiqueta fran 1"""
     frame_pred = tkinter.Frame(frame)
@@ -23,8 +23,7 @@ def show_preddict(frame, modelo, cnt):
     et_showX = tkinter.Label(frame_pred, text= f"Predicciones")
     et_showX.pack(pady=20)
     
-    if cnt!=0: #solo entra con archivos no cargados
-        et_showX.config(text= f"Predicciones: Variable x: {modelo.get_x()}")
+    et_showX.config(text= f"Predicciones: Variable x: {modelo.get_x()}")
 
     """etiqueta fran 2"""
     et_recta = tkinter.Label(frame_pred, text=f"Ecuación recta: {modelo.get_ecuacion_recta()}")

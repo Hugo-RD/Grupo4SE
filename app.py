@@ -168,7 +168,7 @@ class Ventana_Principal(Ventana):
             plt.close()
 
             # Opción a hacer una predicción
-            show_preddict(self.frame_var2, self.var_guardado, 33)
+            show_preddict(self.frame_var2, self.var_guardado)
 
             # Habilitar el botón "Guardar modelo" después de generar un modelo
             self.button_S['state'] = 'normal'
@@ -191,19 +191,15 @@ class Ventana_Principal(Ventana):
 
     def save_RR(self):
         # da funcionalidad al boton de guardado
-        if self.estado:
+        file_path = filedialog.asksaveasfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
 
-            file_path = filedialog.asksaveasfilename(defaultextension=".pkl", filetypes=[("Archivos pickle", "*.pkl")])
+        if file_path: 
+            with open(file_path, "wb") as archivo:
+                #guardamos las variables escogidas en archivo local
+                pickle.dump(self.var_guardado, archivo) 
+        #print de confirmacion
+        print(f"Datos guardados en {file_path}")
 
-            if file_path: 
-                with open(file_path, "wb") as archivo:
-                    #guardamos las variables escogidas en archivo local
-                    pickle.dump(self.var_guardado, archivo) 
-            #print de confirmacion
-            print(f"Datos guardados en {file_path}")
-
-        else:
-            Ventana_Error('No se creó un modelo')
     
     def load_RR(self):
         # Da funcionalidad al botón de carga
@@ -249,7 +245,7 @@ class Ventana_Principal(Ventana):
         var_frame.pack(pady=25) 
         #creamos las etiquetas de las variables
         show_model(var_frame, modelo, 0)
-        show_preddict(var_frame, modelo, 0)
+        show_preddict(var_frame, modelo)
 
 
 if __name__ == "__main__":
