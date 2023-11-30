@@ -19,6 +19,10 @@ def escoger_archivo(self):
     
 
 def __escoger_archivo(self):
+    # Eliminar widgets del frame base (excepto el botón de escoger archivo)
+    for widget in self.frame_base.winfo_children():
+        if widget != self.boton_escoger and widget != self.et_path:
+            widget.destroy()
     # Buscar archivo a cargar en la biblioteca
     ruta = tkinter.filedialog.askopenfilename(filetypes=[("Archivos CSV", "*.csv"),
                                                             ("Archivos Excel", "*.xlsx"),
