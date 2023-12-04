@@ -12,7 +12,7 @@ def escoger_archivo(self):
                                         command=lambda:__escoger_archivo(self),
                                         bg="light grey", width=17, height=0)
     
-    self.boton_escoger.pack(side=tkinter.LEFT, padx=5, pady=15)
+    self.boton_escoger.pack(side=tkinter.RIGHT, padx=5, pady=15)
 
     self.et_path = tkinter.Label(self.frame_base)
     self.et_path.pack()
