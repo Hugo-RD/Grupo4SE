@@ -104,9 +104,6 @@ class Ventana_Principal(Ventana):
         self.frame_mod = tkinter.Frame(self.ventana)
         self.frame_mod.pack()
 
-        exito = tkinter.Label(self.frame_mod, text="Se cargó el documento .pkl con éxito")
-        exito.pack(pady=15)
-
         #se crea frame para las variables a cargar
         var_frame = tkinter.Frame(self.frame_mod)
         var_frame.pack(pady=25) 
