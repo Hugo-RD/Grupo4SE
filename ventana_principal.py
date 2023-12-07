@@ -14,13 +14,13 @@ from escoger_arch_ventana import *
 class Ventana_Principal(Ventana):
     def __init__(self, ancho, alto):
         super().__init__(ancho, alto, "Modelos de regresión lineal")
-        self.frame_var = None  # Variable para el frame de variables
+        self.frame_var = None   # Variable para el frame de variables
         self.var_guardado = None
-        self.estado = False    #inhabilita boton de guardado
-        self.variables = []    # Lista para almacenar las variables seleccionadas
+        self.estado = False     #inhabilita boton de guardado
+        self.variables = []     # Lista para almacenar las variables seleccionadas
         self.et_variables = tkinter.Label(self.frame_var, text="")
 
-        escoger_archivo(self)  # Crear el primer frame
+        escoger_archivo(self)   # Crear el primer frame
         self._save_load()       # Agregar botones de carga/guardado
         self.ventana.mainloop() # Iniciar la ventana
 
@@ -29,28 +29,31 @@ class Ventana_Principal(Ventana):
         self.frame_var = tkinter.Frame(self.ventana)
         self.frame_var.pack()
 
+        self.frame_var_secundario = tkinter.Label(self.frame_var)
+        self.frame_var_secundario.pack()
+
         var_list = diferenciar_variables(self.data)  # Buscar variables numéricas
         
         # Combobox para la variable X
-        combo_x = ttk.Combobox(self.frame_var, values=var_list, state="readonly", width=16)
+        combo_x = ttk.Combobox(self.frame_var_secundario, values=var_list, state="readonly", width=16)
         combo_x.set("Seleccionar X")
         combo_x.pack(side=tkinter.LEFT, padx=5, pady=15)
 
         # Combobox para la variable Y
-        combo_y = ttk.Combobox(self.frame_var, values=var_list, state="readonly", width=16)
+        combo_y = ttk.Combobox(self.frame_var_secundario, values=var_list, state="readonly", width=16)
         combo_y.set("Seleccionar Y")
         combo_y.pack(side=tkinter.LEFT, padx=5, pady=15)
 
-        self.boton_generar = tkinter.Button(self.frame_var, text="Generar Recta de Regresión",
+        self.boton_generar = tkinter.Button(self.frame_var_secundario, text="Generar Recta de Regresión",
                                             bg="light grey", width=21, height=0,
                                             command=lambda: generar_RR(self, combo_x, combo_y))
 
-        self.boton_generar.pack(side=tkinter.LEFT, padx=5, pady=15)
+        self.boton_generar.pack(padx=5, pady=15)
 
         # Deshabilitar el botón inicialmente
         self.boton_generar['state'] = 'disabled'
 
-        self.boton_generar.pack(side=tkinter.LEFT, padx=5, pady=15)
+        self.boton_generar.pack(padx=5, pady=15)
 
         # Verificar si se han seleccionado dos variables antes de habilitar el botón
         def verificar_seleccion():
