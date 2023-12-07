@@ -39,7 +39,7 @@ def __escoger_archivo(self):
             Ventana_Error("El archivo introducido\n no es válido")
             return
 
-        self.et_path.config(text=f"Archivo cargado: {ruta[:50]}...", bg="light blue")
+        self.et_path.config(text=f"Archivo cargado: {ruta}", bg="light blue")
         self.et_path.pack_configure(side=tkinter.LEFT, padx= 5, pady=15)
 
         if self.frame_var: #si habia otro archivo escogido antes
