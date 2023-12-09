@@ -27,8 +27,6 @@ def show_preddict(frame, modelo):
     et_showX.config(text= f"Predicciones: Variable x: {modelo.get_x()}")
 
     """etiqueta fran 2"""
-    et_recta = tkinter.Label(frame_pred, text=f"Ecuación recta: {modelo.get_ecuacion_recta()}")
-    et_recta.pack(side=tkinter.LEFT)
     entry = tkinter.Entry(frame_pred, width=30)
     entry.pack(side=tkinter.LEFT, padx=10)
     #con entry.get() se coge lo escrito
