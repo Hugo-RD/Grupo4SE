@@ -35,7 +35,7 @@ def show_preddict(frame, modelo):
     btn_generar_prediccion = tkinter.Button(frame_pred, text="Generar Predicción", command=lambda: calcular_y(modelo,entry,resultado_label))
     btn_generar_prediccion.pack(side=tkinter.LEFT, padx=10)
     
-    resultado_label = tkinter.Label(frame_pred, text="Resultado: ")
+    resultado_label = tkinter.Label(frame_pred, text=f"{modelo.get_y()} =")
     resultado_label.pack(side=tkinter.LEFT, padx=10)
 
     """botón costo"""
@@ -45,7 +45,7 @@ def calcular_y(modelo, entry, resultado_label):
     try:
         x_value = float(entry.get())
         y = float(modelo.get_m()) * x_value + float(modelo.get_n())
-        resultado_label.config(text=f"Resultado: {y}")
+        resultado_label.config(text=f"{modelo.get_y()}= {y}")
     except ValueError:
         resultado_label.config(text="Error: Ingresa un valor válido para X")
     
