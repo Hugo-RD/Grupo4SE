@@ -12,7 +12,28 @@ from generarRR_ventana import *
 from escoger_arch_ventana import *
 
 class Ventana_Principal(Ventana):
+    """
+    Clase que representa la ventana principal de la aplicación de modelos de regresión lineal.
+
+    Attributes:
+        ancho (int): Ancho de la ventana.
+        alto (int): Alto de la ventana.
+        frame_var (tkinter.Frame): Variable para el frame de variables.
+        var_guardado: Variable para el modelo guardado.
+        estado (bool): Estado que inhabilita el botón de guardado.
+        variables (list): Lista para almacenar las variables seleccionadas.
+        et_variables (tkinter.Label): Etiqueta para mostrar información sobre las variables seleccionadas.
+    """
+     
     def __init__(self, ancho, alto):
+        """
+        Inicializa la ventana principal.
+
+        Args:
+            ancho (int): Ancho de la ventana.
+            alto (int): Alto de la ventana.
+        """
+
         super().__init__(ancho, alto, "Modelos de regresión lineal")
         self.frame_var = None   # Variable para el frame de variables
         self.var_guardado = None
@@ -25,7 +46,10 @@ class Ventana_Principal(Ventana):
         self.ventana.mainloop() # Iniciar la ventana
 
     def frame_variables(self):
-        # Crear el segundo frame de la interfaz para seleccionar variables
+        """
+        Crea el segundo frame de la interfaz para seleccionar variables.
+        """
+
         self.frame_var = tkinter.Frame(self.ventana)
         self.frame_var.pack()
 
@@ -57,6 +81,9 @@ class Ventana_Principal(Ventana):
 
         # Verificar si se han seleccionado dos variables antes de habilitar el botón
         def verificar_seleccion():
+            """
+            Verificar si se han seleccionado dos variables antes de habilitar el botón
+            """
             if combo_x.get() != "Seleccionar X" and combo_y.get() != "Seleccionar Y":
                 self.boton_generar['state'] = 'normal'
             else:
@@ -68,6 +95,10 @@ class Ventana_Principal(Ventana):
 
           
     def _save_load(self):
+        """
+        Crea el frame de botones de carga y guardado.
+        """
+
         #frame boton de carga
         frame_abajo = tkinter.Frame(self.ventana)
         frame_abajo.pack(side="bottom", pady=40)
@@ -85,6 +116,13 @@ class Ventana_Principal(Ventana):
         self.button_S['state'] = 'disabled'
 
     def load_frame(self, modelo):
+        """
+        Carga un nuevo modelo y actualiza la interfaz.
+
+        Args:
+            modelo: Modelo a cargar.
+        """
+         
         #deshabilitar el boton de guardado
         self.button_S['state'] = 'disabled'
         # Borramos el frame de variables si existe
