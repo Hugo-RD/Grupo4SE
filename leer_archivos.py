@@ -1,15 +1,15 @@
 import pandas as pd
 import sqlite3
 
-def leer_csv(path):
+def leer_csv(path): ####REALIZAR PRUEBAS UNITARIAS
     data = pd.read_csv(path, delimiter=',', header=0)
     return data
         
-def leer_xlsx(path):
+def leer_xlsx(path):   ####REALIZAR PRUEBAS UNITARIAS
     data = pd.read_excel(path)
     return data
 
-def leer_sql(path):
+def leer_sql(path):    ####REALIZAR PRUEBAS UNITARIAS
     conn = sqlite3.connect(path)
     data = pd.read_sql_query("SELECT * FROM california_housing_dataset", conn)
     conn.close()

@@ -1,7 +1,7 @@
 from tkinter import ttk, filedialog
 import pickle
 
-def save_RR(var_guardado):
+def save_RR(var_guardado):   ####REALIZAR PRUEBAS UNITARIAS
     """
     Guarda un modelo de regresión lineal en un archivo pickle.
 

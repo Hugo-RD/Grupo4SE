@@ -1,6 +1,6 @@
 import tkinter
 
-def show_model(frame, modelo, cnt):   
+def show_model(frame, modelo, cnt):        
     """
     Muestra información sobre el modelo de regresión en una interfaz gráfica.
 

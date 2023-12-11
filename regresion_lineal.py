@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
-def regresion_lineal(data, var1, var2):
+def regresion_lineal(data, var1, var2):    ####REALIZAR PRUEBAS UNITARIAS
     """
     Realiza un análisis de regresión lineal simple.
 
@@ -73,26 +73,26 @@ class ModeloRegresionLineal:
         self._m = m
         self._n = n
     
-    def get_x(self):
+    def get_x(self):     ####REALIZAR PRUEBAS UNITARIAS
         return self._x 
     
-    def get_y(self):
+    def get_y(self):     ####REALIZAR PRUEBAS UNITARIAS
         return self._y
 
-    def get_ecuacion_recta(self):
+    def get_ecuacion_recta(self):     ####REALIZAR PRUEBAS UNITARIAS
         return self._ecuacion_recta
     
-    def get_r_cuadrado(self):
+    def get_r_cuadrado(self):     ####REALIZAR PRUEBAS UNITARIAS
         return self._coeficiente_r_cuadrado
     
-    def get_cuadratico(self):
+    def get_cuadratico(self):    ####REALIZAR PRUEBAS UNITARIAS
         return self._error_cuadratico
     
-    def get_absoluto(self):
+    def get_absoluto(self):     ####REALIZAR PRUEBAS UNITARIAS
         return self._error_absoluto
         
-    def get_m(self):
+    def get_m(self):     ####REALIZAR PRUEBAS UNITARIAS
         return self._m
     
-    def get_n(self):
+    def get_n(self):     ####REALIZAR PRUEBAS UNITARIAS
         return self._n
