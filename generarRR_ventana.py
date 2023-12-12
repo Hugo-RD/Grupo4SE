@@ -51,7 +51,7 @@ def generar_RR(self, combo_x, combo_y):
             self.canvas_widget.destroy()
 
         # Crear un gráfico y mostrarlo en la misma ventana
-        fig, ax = plt.subplots(figsize=(6, 4), dpi=100)
+        fig, ax = plt.subplots(figsize=(6, 8), dpi=100)
         ax.scatter(self.data[var_x], self.data[var_y], label="Datos reales")
         ax.plot(self.data[var_x], m * self.data[var_x] + corte_y, color='red', label="Predicciones")
 
