@@ -99,7 +99,7 @@ class TestLeerSQL(unittest.TestCase):
 
     def test_leer_sql(self):
         # Define la ruta de un archivo de Excel de prueba (asegúrate de que exista)
-        sql_path = 'datos de ejemplo/housing.sql'
+        sql_path = 'datos de ejemplo/housing.db'
 
         # Llama a la función que deseas probar
         result = leer_sql(sql_path)
