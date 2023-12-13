@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from io import StringIO
 import pickle
 import pandas as pd
@@ -107,6 +107,28 @@ class TestLeerSQL(unittest.TestCase):
         # Asegúrate de que el resultado no sea nulo y sea del tipo esperado
         self.assertIsNotNone(result)
         self.assertIsInstance(result, pd.DataFrame)
+
+class TestSaveRR(unittest.TestCase):
+    @patch("guardar_cargar_archivos.save_", return_value="mocked_file_path.pkl")
+    @patch("builtins.open", create=True)
+    @patch("pickle.dump")
+
+    def test_save_RR(self, mock_dump, mock_open, mock_obtener_file_path):
+        # Configurar el objeto ModeloRegresionLineal de prueba
+        var_guardado = MagicMock()
+
+        # Llamar a la función save_RR
+        save_RR(var_guardado)
+
+        # Verificar que la función obtener_file_path haya sido llamada
+        mock_obtener_file_path.assert_called_once()
+
+        # Verificar que la función open haya sido llamada con el archivo mock
+        mock_open.assert_called_once_with("mocked_file_path.pkl", "wb")
+
+        # Verificar que la función pickle.dump haya sido llamada con las variables correctas
+        mock_dump.assert_called_once_with(var_guardado, mock_open.return_value.__enter__.return_value)
+
 
     
 if __name__ == '__main__':
