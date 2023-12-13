@@ -5,7 +5,7 @@ import pickle
 import pandas as pd
 from guardar_cargar_archivos import save_RR
 from regresion_lineal import ModeloRegresionLineal
-from leer_archivos import leer_csv, leer_xlsx
+from leer_archivos import leer_csv, leer_xlsx, leer_sql
 
 
 class ModeloRegresionLinealTest(unittest.TestCase):
@@ -92,7 +92,22 @@ class TestLeerXLSX(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertIsInstance(result, pd.DataFrame)
 
-    
+class TestLeerSQL(unittest.TestCase):
+    def setUp(self):
+        # Puedes establecer configuraciones iniciales o preparar datos de prueba aquí
+        pass
 
+    def test_leer_sql(self):
+        # Define la ruta de un archivo de Excel de prueba (asegúrate de que exista)
+        sql_path = 'datos de ejemplo/housing.sql'
+
+        # Llama a la función que deseas probar
+        result = leer_sql(sql_path)
+
+        # Asegúrate de que el resultado no sea nulo y sea del tipo esperado
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, pd.DataFrame)
+
+    
 if __name__ == '__main__':
     unittest.main()
