@@ -44,7 +44,7 @@ def generar_RR(self, combo_x, combo_y):
         self.frame_var2.pack(pady=10)
 
         # Mostramos información sobre el modelo en el nuevo frame
-        show_model(self.frame_var2, self.var_guardado, 33)
+        show_model(self.frame_var2, self.var_guardado)
 
         # Eliminar el gráfico anterior si existe
         if hasattr(self, 'canvas_widget'):

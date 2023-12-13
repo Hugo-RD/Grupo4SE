@@ -146,7 +146,7 @@ class Ventana_Principal(Ventana):
         var_frame = tkinter.Frame(self.frame_mod)
         var_frame.pack(pady=25) 
         #creamos las etiquetas de las variables
-        show_model(var_frame, modelo, 0)
+        show_model(var_frame, modelo)
         show_preddict(var_frame, modelo)
 
 
