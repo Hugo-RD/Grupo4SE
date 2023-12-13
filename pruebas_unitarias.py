@@ -109,7 +109,7 @@ class TestLeerSQL(unittest.TestCase):
         self.assertIsInstance(result, pd.DataFrame)
 
 class TestSaveRR(unittest.TestCase):
-    @patch("guardar_cargar_archivos.save_", return_value="mocked_file_path.pkl")
+    @patch("guardar_cargar_archivos.save_RR", return_value="mocked_file_path.pkl")
     @patch("builtins.open", create=True)
     @patch("pickle.dump")
 
