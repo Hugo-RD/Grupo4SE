@@ -9,7 +9,9 @@ def show_model(frame, modelo):
         modelo: Modelo de regresión.
         cnt (int): Contador.
     """
-    et_recta = tkinter.Label(frame, text=f"Ecuación recta: {modelo.get_ecuacion_recta()}")
+    #et_recta = tkinter.Label(frame, text=f"Ecuación recta: {modelo.get_ecuacion_recta()}")
+    et_recta = tkinter.Label(frame, text=f"Ecuación recta: {modelo.get_y()} = {modelo.get_m()}{modelo.get_x()} + {modelo.get_n()}")
+
     et_errores = tkinter.Label(frame, text=f"Error cuadrático medio: {modelo.get_cuadratico()}, Error absoluto medio: {modelo.get_absoluto()}")
     et_coef = tkinter.Label(frame, text=f"Coeficiente R^2: {modelo.get_r_cuadrado()}")
     
@@ -29,10 +31,11 @@ def show_preddict(frame, modelo):
     # Etiqueta para mostrar predicciones
     frame_pred = tkinter.Frame(frame)
     frame_pred.pack(pady=30)
-    et_showX = tkinter.Label(frame_pred, text="Predicciones")
-    et_showX.pack(pady=20)
+    et_predict = tkinter.Label(frame_pred, text="Predicciones")
+    et_predict.pack(pady=20)
     
-    et_showX.config(text=f"Predicciones: Variable x: {modelo.get_x()}")
+    et_showX = tkinter.Label(frame_pred, text=f"{modelo.get_x()}")
+    et_showX.pack(side=tkinter.LEFT, padx=10)
 
     # Entry para ingresar el valor de x
     entry = tkinter.Entry(frame_pred, width=30)
