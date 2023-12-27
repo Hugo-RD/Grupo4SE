@@ -18,6 +18,41 @@ Después de haber realizado una de las opciones anteriores, debes seleccionar me
 A continuación, podrás seleccionar las variables "x" e "y" entre todas las posibles para realizar un modelo de regresión lineal ; 
 o bien cargar un modelo ya creado y guardado con anterioridad. 
 Selecciones una u otra opción , se mostrarán por pantalla los datos correspondientes al modelo. 
+
 Para realizar predicciones del valor de la variable "y", debes introducir un valor positivo en la celda correspondiente a predicciones y hacer clic sobre el botón "generar predicción".
+
+##### Paso a paso con imágenes:
+- Ejecuta app.py en tu intérprete
+
+![](https://github.com/Hugo-RD/Grupo4SE/blob/master/Imagenes/vetanaapp.PNG)
+
+- En la ventana que se mostrará por pantalla, haz clic en el botón de "Escoger archivo"
+
+![](https://github.com/Hugo-RD/Grupo4SE/blob/master/Imagenes/interfaz1.PNG)
+
+- Selecciona el formato de archivo que desees entre los disponibles, y a continuación el archivo cuyos datos quieras tratar.
+
+![](https://github.com/Hugo-RD/Grupo4SE/blob/master/Imagenes/seleccionarchivo.PNG)
+
+- Se verá lo siguiente en la ventana, en la que deberás seleccionar las variables y hacer clic en el botón de "Generar Recta de Regresión"
+
+![](https://github.com/Hugo-RD/Grupo4SE/blob/master/Imagenes/seleccionarvariables.PNG)
+
+- Se mostrarán los datos y gráfica correspondientes al modelo.
+
+![](https://github.com/Hugo-RD/Grupo4SE/blob/master/Imagenes/datosgrafica.PNG)
+
+- Para generar una predicción, solo debes introducir una cantidad correspondiente a la variable x y hacer clic en el botón de  "Generar predicción"
+
+![](https://github.com/Hugo-RD/Grupo4SE/blob/master/Imagenes/prediccion.PNG)
+
+- Si deseas, puedes guardar en local el modelo creado haciendo clic en el botón de "Guardar modelo".
+
+![](https://github.com/Hugo-RD/Grupo4SE/blob/master/Imagenes/guardarmodelo.PNG)
+
+- Estos mismos podrán cargarse haciendo clic en el botón "Cargar modelo".
+
+
+
 #### Creado con:
 - Python
