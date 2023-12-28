@@ -8,7 +8,8 @@ La aplicación permite representar modelos de regresión lineal a partir de base
 - Descarga la carpeta .zip.
 - Ejecuta el módulo app en la consola o en un intérprete de Python.
 - Ejecuta la aplicación y disfruta.
- **NOTA**: Si no se dispone de alguna de las siguientes librerías es neesario instalarla: Tkinter, Pickle, Sklearn, Matplotlib, Numpy, Pandas, Sqlite3.
+ **NOTA**: Si no se dispone de alguna de las siguientes librerías es necesario instalarla: Tkinter, Pickle, Sklearn, Matplotlib, Numpy, Pandas, Sqlite3.
+          (se pueden instalar desde la consola introduciendo el comando "pip install NombreDeLaLibreria"
 #### Guía de uso:
 Puedes disfrutar de la aplicación tanto desde consola como desde un intérprete de Python.
 Para comenzar en consola, una vez hayas instalado Python y estés en el directorio donde se encuentre la carpeta correspondiente al proyecto , 
